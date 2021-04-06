@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import {createContext, useState} from "react";
+import {Route, BrowserRouter as Router, Switch} from "react-router-dom";
+import "./App.css";
+import AddFood from "./Components/AddFood/AddFood";
+import Header from "./Components/Header/Header";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+// Conflict Kitchen
 
+export const UserContext = createContext();
 function App() {
+  const [shareData, setShareData] = useState({});
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={[shareData, setShareData]}>
+      <h3>MealName:{shareData.mealName}</h3>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/admin">
+            <AddFood />
+          </Route>
+        </Switch>
+      </Router>
+    </UserContext.Provider>
   );
 }
 
