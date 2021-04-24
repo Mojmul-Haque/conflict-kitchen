@@ -1,7 +1,7 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const NavHeader = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,6 +42,11 @@ const Header = () => {
                   Admin
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/cart">
+                  Cart
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -50,4 +55,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default NavHeader;
