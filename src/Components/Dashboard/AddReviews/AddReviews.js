@@ -3,17 +3,22 @@ import { useForm } from "react-hook-form";
 import { Button } from "@material-ui/core";
 import "./AddReview.css";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddReviews = () => {
   const [imageURL, setImageURL] = useState(null);
+  const notify = () =>
+    toast.success("Succes,Your data post on server", { autoClose: 2500 });
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = (data, e) => {
     console.log(data);
+
     const reviewData = {
       userName: data.name,
       userEmail: data.email,
@@ -28,7 +33,15 @@ const AddReviews = () => {
       body: JSON.stringify(reviewData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((result) => {
+        console.log(result);
+        if (result) {
+          notify();
+          e.target.reset();
+        } else {
+          alert("your data don't post on server");
+        }
+      });
   };
 
   const uploadImage = (e) => {
@@ -52,35 +65,43 @@ const AddReviews = () => {
         <div className="col-lg-6">
           <form className="user-feedback" onSubmit={handleSubmit(onSubmit)}>
             <div>
+              <label htmlFor="name">Name</label>
               <input
                 className="form-control my-2"
                 {...register("name", { required: true })}
                 placeholder="Your Name"
+                id="name"
               />
               {errors.name && <span>This field is required</span>}
             </div>
             <div>
+              <label htmlFor="userEmail">Email</label>
               <input
                 className="form-control my-2"
                 {...register("email", { required: true })}
                 placeholder="Your Email"
+                id="userEmail"
               />
               {errors.email && <span>This field is required</span>}
             </div>
             <div>
+              <label htmlFor="message">Messaage</label>
               <textarea
                 className="form-control my-2"
                 {...register("textbox", { required: true })}
                 placeholder="Your Feedback"
+                id="message"
               />
               {errors.textbox && <span>Your Message is required</span>}
             </div>
 
             <div>
+            <label htmlFor="userImage">Your image</label>
               <input
                 type="file"
                 onChange={uploadImage}
                 className="form-control my-2"
+                id="userImage"
               />
             </div>
 
@@ -92,6 +113,7 @@ const AddReviews = () => {
             >
               Submit{" "}
             </Button>
+            <ToastContainer />
           </form>
         </div>
       </div>

@@ -5,11 +5,7 @@ const AllFoods = (props) => {
   const { food, meals, addToCart, cart } = props;
   let { mealName, price, _id } = food;
 
-  // useEffect(() => {
-  //   const cartData = [...cart];
-  //   console.log(cartData);
 
-  // }, [cart]);
 
   return (
     <div className="col-lg-4 my-3 text-center">
