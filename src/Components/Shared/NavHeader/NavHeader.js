@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const NavHeader = () => {
+const NavHeader = ({ cart }) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let count = 0;
+    cart.forEach((element) => {
+      console.log(element);
+      count += element.qty;
+      console.log(count);
+      setCount(count);
+    });
+  }, [cart]);
+
+  let myCount = JSON.parse(localStorage.getItem("cartItem"));
+  console.log(myCount, "locallstorage get item");
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -43,8 +58,8 @@ const NavHeader = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/cart">
-                  Cart
+                <Link className="nav-link" to="/cart-item">
+                  Cart <span className="text-danger">{count}</span>
                 </Link>
               </li>
             </ul>
@@ -55,4 +70,8 @@ const NavHeader = () => {
   );
 };
 
-export default NavHeader;
+const mapStateToProps = (state) => {
+  return { cart: state.shop.cart };
+};
+
+export default connect(mapStateToProps)(NavHeader);

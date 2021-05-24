@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { addToCart, removeCart } from "../../../Redux/Action/Action";
-import AllFoods from "../AllFoods/AllFoods";
 import { connect } from "react-redux";
-import Cart from "../Cart/Cart";
+import AllFoods from "../AllFoods/AllFoods";
+import CheckoutCart from "../Checkout/CheckoutCart";
 
 const MainHome = (props) => {
   console.log(props);
-  const { cart, addToCart, removeCart } = props;
+  const { cart } = props;
   const [foods, setFoods] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
 
@@ -36,7 +35,7 @@ const MainHome = (props) => {
   return (
     <div className="container-fluid d">
       <div className="row">
-        <div className="col-lg-9">
+        <div className="col-lg-12">
           <h3>there are foods {foods.length}</h3>
           <div className="row justify-content-center">
             <div className="col-lg-6">
@@ -56,36 +55,25 @@ const MainHome = (props) => {
             ) : (
               <>
                 {meals.map((food) => (
-                  <AllFoods
-                    food={food}
-                    key={food._id}
-                    addToCart={addToCart}
-                    removeCart={removeCart}
-                  />
+                  <AllFoods food={food} key={food._id} meals={meals} />
                 ))}
               </>
             )}
           </div>
         </div>
-        <div className="col-lg-3 border">
+        {/* <div className="col-lg-3 border">
           <h3>Cart item {cart.length}</h3>
-          <h3>cartId: {cart.cartId}</h3>
-          {cart.map((item) => (
-            <Cart cartItem={item} removeCart={removeCart} />
-          ))}
-        </div>
+          <div className="cart-item">
+            <CheckoutCart />
+          </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { cart: state.cart };
+  return { cart: state.shop.cart };
 };
 
-const mapDispatchToProps = {
-  addToCart: addToCart,
-  removeCart: removeCart,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainHome);
+export default connect(mapStateToProps)(MainHome);

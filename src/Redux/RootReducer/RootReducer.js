@@ -1,6 +1,13 @@
 import { combineReducers } from "redux";
-import shopReduser from "../Reducer/Reduser.js";
+import shopReducer from "../ShopReducer/ShopReducer";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-export const rootReducer = combineReducers({
-  shop: shopReduser,
+
+
+
+const rootReducer = combineReducers({
+  shop: shopReducer,
 });
+
+export default rootReducer

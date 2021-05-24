@@ -1,8 +1,15 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { addToCart } from "../../../Redux/Action/shopAction";
 const AllFoods = (props) => {
-  const { food, addToCart } = props;
+  const { food, meals, addToCart, cart } = props;
   let { mealName, price, _id } = food;
+
+  // useEffect(() => {
+  //   const cartData = [...cart];
+  //   console.log(cartData);
+
+  // }, [cart]);
 
   return (
     <div className="col-lg-4 my-3 text-center">
@@ -10,7 +17,7 @@ const AllFoods = (props) => {
         <h5>{mealName}</h5>
         <h6>Price : {price}</h6>
         <button
-          onClick={() => addToCart(_id, mealName)}
+          onClick={() => addToCart(meals, _id)}
           type="button"
           className="btn btn-success fs-6 mt-2"
         >
@@ -21,4 +28,12 @@ const AllFoods = (props) => {
   );
 };
 
-export default AllFoods;
+const mapStateToProps = (state) => {
+  return { cart: state.shop.cart };
+};
+
+const mapDispatchToProps = {
+  addToCart: addToCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllFoods);
